@@ -2,7 +2,7 @@ import { createApp } from './vendor/vue.esm-browser.js';
 
 // Создайте Vue приложение
 
-const Task1 = createApp({
+const TaskCounter = createApp({
     data() {
         return {
             counter: 0
