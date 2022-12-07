@@ -1,33 +1,44 @@
-import { defineComponent } from '../vendor/vue.esm-browser.js';
-import { agendaItemIcons, agendaItemDefaultTitles } from '../meetupService.js';
+import { defineComponent } from './vendor/vue.esm-browser.js';
+import { agendaItemIcons, agendaItemDefaultTitles } from './meetupService';
+
 export default defineComponent({
   name: 'MeetupAgendaItem',
 
   props: {
     agendaItem: {
-      type: String
-    }
+      type: Object,
+      required: true,
+    },
   },
-  computed:{
-    icon(){
-      agendaItemIcons[this.agenda.type]
-    }
+
+  computed: {
+    title() {
+      return this.agendaItem.title ?? agendaItemDefaultTitles[this.agendaItem.type];
+    },
+
+    icon() {
+      return agendaItemIcons[this.agendaItem.type];
+    },
+
+    iconSrc() {
+      return `/assets/icons/icon-${this.icon}.svg`;
+    },
   },
+
   template: `
     <div class="agenda-item">
       <div class="agenda-item__col">
-        <img src="/assets/icons/icon-\`\${icon}\`.svg" class="icon" alt="key" />
+        <img :src="iconSrc" class="icon" :alt="icon" />
       </div>
-      <div class="agenda-item__col">{{agendaItem.startsAt}} - {{agendaItem.endsAt}}</div>
+      <div class="agenda-item__col">{{ agendaItem.startsAt }} - {{ agendaItem.endsAt }}</div>
       <div class="agenda-item__col">
-        <h3 class="agenda-item__title" v-if="agendaItem.title != null">{{agendaItem.title}}</h3>
-        <h3 class="agenda-item__title" v-else>{{agendaItem.title}}</h3>
-        <p class="agenda-item__talk">
-          <span>{{agendaItem.speaker}}</span>
-          <span class="agenda-item__dot" v-if="agendaItem.language != null"></span>
-          <span class="agenda-item__lang">{{agendaItem.language}}</span>
+        <h3 class="agenda-item__title">{{ title }}</h3>
+        <p v-if="agendaItem.speaker" class="agenda-item__talk">
+          <span>{{ agendaItem.speaker }}</span>
+          <span class="agenda-item__dot"></span>
+          <span class="agenda-item__lang">{{ agendaItem.language }}</span>
         </p>
-        <p>{{agendaItem.description}}</p>
+        <p v-if="agendaItem.description">{{ agendaItem.description }}</p>
       </div>
     </div>`,
 });
