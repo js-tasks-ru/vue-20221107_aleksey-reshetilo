@@ -39,7 +39,6 @@ let vm = createApp({
     }
   },
   computed: {
-
     SearchEmail(){
       const { search } = this;
       return this.emails.map(current_email => ({

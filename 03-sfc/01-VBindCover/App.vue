@@ -13,7 +13,7 @@ import MeetupCover from './components/MeetupCover';
 
 export default {
   name: 'App',
-
+  
   components: { MeetupCover },
 
   data() {
